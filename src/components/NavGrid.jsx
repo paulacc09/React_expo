@@ -1,9 +1,9 @@
 const NAVS = [
-  { id: 'qué',    icon: '📖', label: '¿Qué son?',       sub: 'Definición' },
-  { id: 'cuando', icon: '🕐', label: '¿Cuándo usar?',   sub: 'Casos de uso' },
-  { id: 'como',   icon: '🔧', label: 'Instalación',     sub: 'Paso a paso' },
-  { id: 'hooks',  icon: '🪝', label: 'Hooks en acción', sub: 'Demo interactivo' },
-  { id: 'app',    icon: '🚀', label: 'App demo',         sub: 'Ejemplo real' },
+  { id: 'qué', label: '¿Qué son?',       sub: 'Definición' },
+  { id: 'cuando', label: '¿Cuándo usar?',   sub: 'Casos de uso' },
+  { id: 'como', label: 'Instalación',     sub: 'Paso a paso' },
+  { id: 'hooks', label: 'Hooks en acción', sub: 'Demo interactivo' },
+  { id: 'app', label: 'App demo',         sub: 'Ejemplo real' },
 ]
 
 export default function NavGrid({ active, setActive }) {

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { SectionWrapper, ToolBlock, CodeBlock } from '../UI'
+import { SectionWrapper, CodeBlock } from '../UI'
 
 function ContadorDemo() {
   const [count, setCount] = useState(0)
@@ -22,8 +22,8 @@ function BusquedaDemo() {
   const [status, setStatus] = useState('⏳ useEffect esperando input...')
 
   useEffect(() => {
-    if (!query) { setStatus('⏳ useEffect esperando input...'); return }
-    setStatus('⌛ Esperando que dejes de escribir...')
+    if (!query) { setStatus('useEffect esperando input...'); return }
+    setStatus('Esperando que dejes de escribir...')
     const timer = setTimeout(() => {
       setStatus(`✓ useEffect disparado → fetch("/api/search?q=${query}")`)
     }, 500)

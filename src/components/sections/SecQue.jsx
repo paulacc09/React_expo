@@ -4,7 +4,7 @@ export default function SecQue() {
   return (
     <SectionWrapper title="¿Qué es cada herramienta?">
 
-      <ToolBlock name="⚛ React">
+      <ToolBlock name="React">
         <p className="text-sm text-gray-500 leading-relaxed">
           Librería JavaScript de Meta para construir interfaces de usuario mediante{' '}
           <strong className="text-gray-700">componentes reutilizables</strong>. Utiliza un DOM virtual
@@ -16,7 +16,7 @@ export default function SecQue() {
 }`}</CodeBlock>
       </ToolBlock>
 
-      <ToolBlock name="⚡ Vite">
+      <ToolBlock name="Vite">
         <p className="text-sm text-gray-500 leading-relaxed">
           Herramienta de build de nueva generación. A diferencia de Webpack, usa{' '}
           <strong className="text-gray-700">ES Modules nativos del navegador</strong> durante
@@ -27,7 +27,7 @@ export default function SecQue() {
 npm create vite@latest mi-app -- --template react`}</CodeBlock>
       </ToolBlock>
 
-      <ToolBlock name="🎨 Tailwind CSS">
+      <ToolBlock name="Tailwind CSS">
         <p className="text-sm text-gray-500 leading-relaxed">
           Framework CSS <strong className="text-gray-700">utility-first</strong>: aplicas utilidades
           atómicas directamente en el HTML. El bundle final solo incluye las clases que usas.
@@ -37,7 +37,7 @@ npm create vite@latest mi-app -- --template react`}</CodeBlock>
 </button>`}</CodeBlock>
       </ToolBlock>
 
-      <ToolBlock name="🪝 React Hooks">
+      <ToolBlock name="React Hooks">
         <p className="text-sm text-gray-500 leading-relaxed">
           Funciones especiales (desde React 16.8) que permiten usar{' '}
           <strong className="text-gray-700">estado y ciclo de vida</strong> en componentes

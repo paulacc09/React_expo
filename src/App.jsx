@@ -5,7 +5,7 @@ import SecQue from './components/sections/SecQue'
 import SecCuando from './components/sections/SecCuando'
 import SecComo from './components/sections/SecComo'
 import SecHooks from './components/sections/SecHooks'
-import SecApp from '../components/sections/SecApp'
+import SecApp from './components/sections/SecApp'
 
 export default function App() {
   const [active, setActive] = useState('qué')
