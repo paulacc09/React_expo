@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import Nav from './components/Nav'
+import Nav from './components/NavGrid'
 import SecQue from './components/sections/SecQue'
 import SecCuando from './components/sections/SecCuando'
 import SecComo from './components/sections/SecComo'

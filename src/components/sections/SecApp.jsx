@@ -1,87 +1,135 @@
 import { useState, useEffect } from 'react'
-import { SectionWrapper, CodeBlock } from '../UI'
+import { Titulo, Parrafo, Codigo, Divider, Subtitulo } from '../UI'
 
 function ContadorDemo() {
   const [count, setCount] = useState(0)
+
   return (
-    <div className="bg-gray-50 rounded-xl p-5 mb-4">
-      <div className="text-xs text-gray-400 mb-3 font-medium">Demo 1 · useState — Contador</div>
-      <div className="font-mono text-5xl font-bold text-center py-6">{count}</div>
-      <div className="flex gap-2 justify-center flex-wrap">
-        <button onClick={() => setCount(c => c - 1)} className="px-5 py-2 rounded-lg border border-gray-200 bg-white hover:bg-gray-50 text-sm transition">− Restar</button>
-        <button onClick={() => setCount(0)} className="px-5 py-2 rounded-lg border border-blue-300 bg-blue-50 hover:bg-blue-100 text-blue-700 text-sm transition">↺ Reset</button>
-        <button onClick={() => setCount(c => c + 1)} className="px-5 py-2 rounded-lg border border-gray-200 bg-white hover:bg-gray-50 text-sm transition">+ Sumar</button>
+    <div className="my-6">
+      <div className="flex items-center gap-6 mb-4">
+        <span className="mono text-5xl font-light text-gray-800 w-16 text-center">{count}</span>
+        <div className="flex gap-2">
+          <button
+            onClick={() => setCount(c => c - 1)}
+            className="w-8 h-8 border border-gray-200 rounded text-gray-400 hover:border-gray-400 hover:text-gray-600 transition text-lg leading-none"
+          >−</button>
+          <button
+            onClick={() => setCount(0)}
+            className="px-3 h-8 border border-gray-200 rounded text-xs text-gray-400 hover:border-gray-400 hover:text-gray-600 transition"
+          >reset</button>
+          <button
+            onClick={() => setCount(c => c + 1)}
+            className="w-8 h-8 border border-gray-200 rounded text-gray-400 hover:border-gray-400 hover:text-gray-600 transition text-lg leading-none"
+          >+</button>
+        </div>
       </div>
-      <CodeBlock>{`const [count, setCount] = useState(0);\n<button onClick={() => setCount(c => c + 1)}>+</button>`}</CodeBlock>
+      <Codigo>{`const [count, setCount] = useState(0)
+<button onClick={() => setCount(c => c + 1)}>+</button>`}</Codigo>
     </div>
   )
 }
 
 function BusquedaDemo() {
   const [query, setQuery] = useState('')
-  const [status, setStatus] = useState('⏳ useEffect esperando input...')
+  const [status, setStatus] = useState('esperando input...')
 
   useEffect(() => {
-    if (!query) { setStatus('useEffect esperando input...'); return }
-    setStatus('Esperando que dejes de escribir...')
-    const timer = setTimeout(() => {
-      setStatus(`✓ useEffect disparado → fetch("/api/search?q=${query}")`)
+    if (!query) { setStatus('esperando input...'); return }
+    setStatus('esperando que termines de escribir...')
+    const t = setTimeout(() => {
+      setStatus(`GET /api/search?q=${query}`)
     }, 500)
-    return () => clearTimeout(timer)
+    return () => clearTimeout(t)
   }, [query])
 
   return (
-    <div className="bg-gray-50 rounded-xl p-5 mb-4">
-      <div className="text-xs text-gray-400 mb-3 font-medium">Demo 2 · useEffect — Búsqueda con debounce</div>
+    <div className="my-6">
       <input
         value={query}
         onChange={e => setQuery(e.target.value)}
-        placeholder="Escribe algo para buscar..."
-        className="w-full px-4 py-2 rounded-lg border border-gray-200 text-sm bg-white mb-3 focus:outline-none focus:border-blue-400"
+        placeholder="escribe algo..."
+        className="w-full border-b border-gray-200 py-2 text-sm outline-none placeholder-gray-300 focus:border-gray-400 transition bg-transparent mb-4"
       />
-      <div className="font-mono text-xs bg-gray-100 rounded-lg px-4 py-3 text-gray-500">{status}</div>
-      <CodeBlock>{`useEffect(() => {\n  const timer = setTimeout(() => {\n    fetch(\`/api/search?q=\${query}\`)\n  }, 500)\n  return () => clearTimeout(timer)\n}, [query])`}</CodeBlock>
+      <p className="mono text-xs text-gray-400">{status}</p>
+      <Codigo>{`useEffect(() => {
+  const t = setTimeout(() => {
+    fetch(\`/api/search?q=\${query}\`)
+  }, 500)
+  return () => clearTimeout(t) // limpieza
+}, [query])`}</Codigo>
     </div>
   )
 }
 
-const COLORS = {
-  blue:  { tw: 'bg-blue-100 text-blue-700',  cls: 'bg-blue-100 text-blue-700' },
-  green: { tw: 'bg-green-100 text-green-700', cls: 'bg-green-100 text-green-700' },
-  red:   { tw: 'bg-red-100 text-red-700',    cls: 'bg-red-100 text-red-700' },
-  amber: { tw: 'bg-amber-100 text-amber-700', cls: 'bg-amber-100 text-amber-700' },
-}
+const PALETA = [
+  { label: 'default',  cls: '' },
+  { label: 'slate',    cls: 'bg-slate-100 text-slate-700' },
+  { label: 'stone',    cls: 'bg-stone-100 text-stone-700' },
+  { label: 'sky',      cls: 'bg-sky-100 text-sky-700' },
+  { label: 'teal',     cls: 'bg-teal-100 text-teal-700' },
+]
 
 function TailwindDemo() {
-  const [color, setColor] = useState('blue')
-  const c = COLORS[color]
+  const [sel, setSel] = useState(0)
+  const activo = PALETA[sel]
+
   return (
-    <div className="bg-gray-50 rounded-xl p-5 mb-4">
-      <div className="text-xs text-gray-400 mb-3 font-medium">Demo 3 · Tailwind — Clases en vivo</div>
-      <div className="flex gap-2 flex-wrap mb-4">
-        {Object.keys(COLORS).map(k => (
-          <button key={k} onClick={() => setColor(k)} className={`text-xs px-3 py-1 rounded-lg border bg-white hover:bg-gray-50 transition ${color === k ? 'border-gray-400 font-bold' : 'border-gray-200'}`}>{k}</button>
+    <div className="my-6">
+      <div className="flex gap-3 mb-5 flex-wrap">
+        {PALETA.map((p, i) => (
+          <button
+            key={i}
+            onClick={() => setSel(i)}
+            className={`text-xs px-3 py-1.5 rounded border transition
+              ${sel === i ? 'border-gray-400 text-gray-700' : 'border-gray-100 text-gray-400 hover:border-gray-200'}`}
+          >
+            {p.label}
+          </button>
         ))}
       </div>
-      <div className={`${c.tw} text-center font-medium text-sm px-4 py-4 rounded-lg transition-all`}>{c.cls}</div>
-      <CodeBlock>{`<div className="${c.cls} p-4 rounded-lg">\n  contenido\n</div>`}</CodeBlock>
+
+      <div className={`text-sm px-5 py-4 rounded-lg border border-gray-100 transition-all mono ${activo.cls || 'text-gray-500'}`}>
+        {activo.cls || 'sin clases'}
+      </div>
+
+      <Codigo>{`<div className="${activo.cls || ''}">
+  contenido
+</div>`}</Codigo>
     </div>
   )
 }
 
 export default function SecApp() {
   return (
-    <SectionWrapper title="App demo — todos los conceptos en acción">
+    <div>
+      <Titulo>Demo</Titulo>
+      <Parrafo>
+        Tres ejemplos interactivos que muestran los conceptos en acción.
+        El código debajo de cada demo es exactamente lo que lo hace funcionar.
+      </Parrafo>
+
+      <Divider />
+
+      <Subtitulo>useState — contador</Subtitulo>
+      <Parrafo>El caso más simple: un número que sube y baja.</Parrafo>
       <ContadorDemo />
+
+      <Divider />
+
+      <Subtitulo>useEffect — búsqueda con debounce</Subtitulo>
+      <Parrafo>
+        Escribe algo. El efecto espera 500ms antes de "hacer el fetch",
+        y se cancela si escribes de nuevo antes de que pasen.
+      </Parrafo>
       <BusquedaDemo />
+
+      <Divider />
+
+      <Subtitulo>Tailwind — clases dinámicas</Subtitulo>
+      <Parrafo>
+        El estado de React controla qué clases de Tailwind se aplican.
+      </Parrafo>
       <TailwindDemo />
-      <div className="bg-gray-50 rounded-xl p-5">
-        <div className="text-sm font-medium mb-3">Estructura del proyecto</div>
-        <CodeBlock>{`mi-proyecto/\n├── src/\n│   ├── components/\n│   │   ├── Hero.jsx\n│   │   ├── NavGrid.jsx\n│   │   
-                    ├── UI.jsx\n│   │   └── sections/\n│   │       ├── SecQue.jsx\n│   │       ├── SecCuando.jsx\n│   │       
-                    ├── SecComo.jsx\n│   │       ├── SecHooks.jsx\n│   │       └── SecApp.jsx\n│   ├── App.jsx\n│   
-                    └── index.css\n├── tailwind.config.js\n├── vite.config.js\n└── package.json`}</CodeBlock>
-      </div>
-    </SectionWrapper>
+    </div>
   )
 }
