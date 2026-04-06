@@ -1,39 +1,74 @@
-import { SectionWrapper, ToolBlock, WhenGrid } from '../UI'
+import { Titulo, Subtitulo, Parrafo, Divider, Nota } from '../UI'
+
+function Tabla({ filas }) {
+  return (
+    <div className="my-4 border border-gray-100 rounded-lg overflow-hidden">
+      {filas.map(([izq, der, header], i) => (
+        <div
+          key={i}
+          className={`grid grid-cols-2 text-sm
+            ${header ? 'bg-gray-50 font-medium text-gray-600' : 'border-t border-gray-100'}
+          `}
+        >
+          <div className="px-4 py-3 border-r border-gray-100 text-gray-700">{izq}</div>
+          <div className="px-4 py-3 text-gray-500">{der}</div>
+        </div>
+      ))}
+    </div>
+  )
+}
 
 export default function SecCuando() {
   return (
-    <SectionWrapper title="¿Cuándo usar cada herramienta?">
+    <div>
+      <Titulo>¿Cuándo usar cada herramienta?</Titulo>
+      <Parrafo>
+        Ninguna herramienta es la solución a todo. Esta sección explica en qué
+        contextos tiene sentido usar cada una y cuándo considerar alternativas.
+      </Parrafo>
 
-      <ToolBlock name="React">
-        <WhenGrid
-          si={['La UI tiene muchos estados dinámicos','Necesitas reutilizar componentes','SPA o dashboard complejo']}
-          no={['Página estática simple','SEO crítico sin SSR','Solo un formulario sencillo']}
-        />
-      </ToolBlock>
+      <Divider />
 
-      <ToolBlock name="Vite">
-        <WhenGrid
-          si={['Nuevo proyecto React, Vue o Svelte','Quieres HMR ultrarrápido','Proyectos modernos (+ES2015)']}
-          no={['Proyecto legacy con Webpack','Usas Next.js (tiene su propio bundler)']}
-          noLabel="Considera alternativas si..."
-        />
-      </ToolBlock>
+      <Subtitulo>React</Subtitulo>
+      <Tabla filas={[
+        ['Úsalo cuando...', 'Evítalo si...', true],
+        ['La UI tiene muchos estados dinámicos', 'Es una página estática simple'],
+        ['Necesitas componentes reutilizables', 'El SEO es crítico sin SSR'],
+        ['Estás construyendo una SPA o dashboard', 'Solo necesitas un formulario sencillo'],
+      ]} />
 
-      <ToolBlock name="Tailwind">
-        <WhenGrid
-          si={['Diseño personalizado sin framework UI','Quieres evitar conflictos de CSS','Consistencia visual en equipo']}
-          no={['Prefieres CSS semántico puro','Ya usas Bootstrap o Material UI']}
-        />
-      </ToolBlock>
+      <Divider />
 
-      <ToolBlock name="Hooks">
-        <WhenGrid
-          si={['Necesitas estado local en un componente','Ejecutar código al montar/desmontar','Manejar efectos (APIs, timers)']}
-          no={['Solo en funciones de componente','No dentro de ifs ni bucles']}
-          noLabel="Reglas a respetar"
-        />
-      </ToolBlock>
+      <Subtitulo>Vite</Subtitulo>
+      <Tabla filas={[
+        ['Úsalo cuando...', 'Considera alternativas si...', true],
+        ['Empiezas un proyecto nuevo', 'Ya tienes Webpack configurado'],
+        ['Quieres HMR ultrarrápido', 'Usas Next.js (tiene su propio bundler)'],
+        ['Proyecto moderno (ES2015+)', 'El equipo domina otra herramienta de build'],
+      ]} />
 
-    </SectionWrapper>
+      <Divider />
+
+      <Subtitulo>Tailwind</Subtitulo>
+      <Tabla filas={[
+        ['Úsalo cuando...', 'Evítalo si...', true],
+        ['Quieres diseño personalizado sin framework UI', 'Prefieres CSS semántico puro'],
+        ['Quieres evitar conflictos de clases CSS', 'Ya tienes Bootstrap o Material UI'],
+        ['Valoras consistencia visual rápida en equipo', 'El equipo no quiere aprender las utilidades'],
+      ]} />
+
+      <Divider />
+
+      <Subtitulo>Hooks — cuál usar en cada caso</Subtitulo>
+      <Tabla filas={[
+        ['Hook', '¿Cuándo usarlo?', true],
+        ['useState', 'Cualquier dato que puede cambiar en el componente'],
+        ['useEffect', 'Llamar APIs, timers, suscripciones al DOM'],
+        ['useContext', 'Compartir datos globales sin prop drilling'],
+        ['useRef', 'Acceder al DOM o guardar valores sin re-render'],
+        ['useMemo', 'Cálculos costosos que no deben repetirse'],
+        ['useCallback', 'Funciones que se pasan como props a hijos'],
+      ]} />
+    </div>
   )
 }

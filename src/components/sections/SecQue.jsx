@@ -1,52 +1,81 @@
-import { SectionWrapper, ToolBlock, CodeBlock } from '../UI'
+import { Titulo, Subtitulo, Parrafo, Codigo, Divider, Nota } from '../UI'
 
 export default function SecQue() {
   return (
-    <SectionWrapper title="¿Qué es cada herramienta?">
+    <div>
+      <Titulo>¿Qué es cada herramienta?</Titulo>
+      <Parrafo>
+        Estas cuatro tecnologías conforman el stack moderno más usado para construir
+        aplicaciones web con JavaScript. Cada una tiene un rol específico.
+      </Parrafo>
 
-      <ToolBlock name="React">
-        <p className="text-sm text-gray-500 leading-relaxed">
-          Librería JavaScript de Meta para construir interfaces de usuario mediante{' '}
-          <strong className="text-gray-700">componentes reutilizables</strong>. Utiliza un DOM virtual
-          para actualizar solo las partes que cambian. No es un framework completo: se encarga
-          únicamente de la capa de vista (UI).
-        </p>
-        <CodeBlock>{`function MiBoton({ texto }) {
-  return <button className="btn">{texto}</button>;
-}`}</CodeBlock>
-      </ToolBlock>
+      <Divider />
 
-      <ToolBlock name="Vite">
-        <p className="text-sm text-gray-500 leading-relaxed">
-          Herramienta de build de nueva generación. A diferencia de Webpack, usa{' '}
-          <strong className="text-gray-700">ES Modules nativos del navegador</strong> durante
-          el desarrollo, arrancando el servidor en milisegundos.
-        </p>
-        <CodeBlock>{`# Sin Vite: espera 30-60s
-# Con Vite: servidor listo en ~300ms
-npm create vite@latest mi-app -- --template react`}</CodeBlock>
-      </ToolBlock>
+      <Subtitulo>React</Subtitulo>
+      <Parrafo>
+        Librería de JavaScript creada por Meta para construir interfaces de usuario.
+        La idea central es dividir la UI en <strong className="text-gray-700 font-medium">componentes</strong>: funciones
+        reutilizables que devuelven HTML. Usa un DOM virtual para actualizar solo
+        lo que cambia, haciéndola muy eficiente.
+      </Parrafo>
+      <Codigo>{`// Un componente es una función que retorna JSX
+function Boton({ texto, onClick }) {
+  return (
+    <button onClick={onClick}>
+      {texto}
+    </button>
+  )
+}`}</Codigo>
+      <Nota>React no es un framework completo. Solo maneja la capa de vista (UI). Para routing, estado global o fetching necesitas otras librerías.</Nota>
 
-      <ToolBlock name="Tailwind CSS">
-        <p className="text-sm text-gray-500 leading-relaxed">
-          Framework CSS <strong className="text-gray-700">utility-first</strong>: aplicas utilidades
-          atómicas directamente en el HTML. El bundle final solo incluye las clases que usas.
-        </p>
-        <CodeBlock>{`<button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+      <Divider />
+
+      <Subtitulo>Vite</Subtitulo>
+      <Parrafo>
+        Herramienta de build creada por Evan You en 2020. Se encarga de arrancar
+        el servidor de desarrollo y empacar el proyecto para producción. A diferencia
+        de Webpack, usa <strong className="text-gray-700 font-medium">ES Modules nativos</strong> del
+        navegador, lo que lo hace arrancar en ~300ms en vez de 30-60 segundos.
+      </Parrafo>
+      <Codigo>{`npm create vite@latest mi-app -- --template react
+cd mi-app
+npm install
+npm run dev   # → listo en ~300ms`}</Codigo>
+
+      <Divider />
+
+      <Subtitulo>Tailwind CSS</Subtitulo>
+      <Parrafo>
+        Framework CSS de tipo <strong className="text-gray-700 font-medium">utility-first</strong>.
+        En vez de escribir clases semánticas en un archivo CSS separado, aplicas
+        clases de utilidad directamente en el JSX. El bundle final solo incluye
+        las clases que realmente usaste.
+      </Parrafo>
+      <Codigo>{`// CSS tradicional
+.boton {
+  background: blue;
+  color: white;
+  padding: 8px 16px;
+}
+
+// Con Tailwind (directo en el JSX)
+<button className="bg-blue-600 text-white px-4 py-2">
   Enviar
-</button>`}</CodeBlock>
-      </ToolBlock>
+</button>`}</Codigo>
 
-      <ToolBlock name="React Hooks">
-        <p className="text-sm text-gray-500 leading-relaxed">
-          Funciones especiales (desde React 16.8) que permiten usar{' '}
-          <strong className="text-gray-700">estado y ciclo de vida</strong> en componentes
-          funcionales sin clases. Siempre empiezan con la palabra <em>use</em>.
-        </p>
-        <CodeBlock>{`const [contador, setContador] = useState(0);
-useEffect(() => { console.log("cambió"); }, [contador]);`}</CodeBlock>
-      </ToolBlock>
+      <Divider />
 
-    </SectionWrapper>
+      <Subtitulo>React Hooks</Subtitulo>
+      <Parrafo>
+        Funciones especiales de React (desde la versión 16.8) que permiten usar
+        estado y ciclo de vida en componentes funcionales. Siempre empiezan con
+        la palabra <code className="mono text-xs bg-gray-100 px-1.5 py-0.5 rounded text-gray-600">use</code>.
+        No se instalan: vienen incluidos en React.
+      </Parrafo>
+      <Codigo>{`import { useState, useEffect } from 'react'
+
+const [contador, setContador] = useState(0)
+useEffect(() => { console.log('cambió') }, [contador])`}</Codigo>
+    </div>
   )
 }

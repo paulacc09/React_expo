@@ -1,42 +1,57 @@
-export function SectionWrapper({ title, children }) {
+export function Titulo({ children }) {
   return (
-    <div className="bg-white border border-gray-200 rounded-2xl p-6 mb-4 animate-fadeIn">
-      <h2 className="font-mono text-lg font-bold mb-5 pb-4 border-b border-gray-100">
-        {title}
-      </h2>
+    <h2 className="text-2xl font-medium tracking-tight text-gray-900 mb-2">
       {children}
-    </div>
+    </h2>
   )
 }
 
-export function ToolBlock({ name, children }) {
+export function Subtitulo({ children }) {
   return (
-    <div className="bg-gray-50 rounded-xl p-5 mb-4">
-      <div className="font-mono text-sm font-bold mb-2">{name}</div>
+    <h3 className="text-base font-medium text-gray-900 mt-10 mb-3">
       {children}
-    </div>
+    </h3>
   )
 }
 
-export function CodeBlock({ children }) {
+export function Parrafo({ children }) {
   return (
-    <pre className="font-mono text-xs bg-gray-100 border border-gray-200 rounded-lg p-4 mt-3 overflow-x-auto leading-relaxed whitespace-pre">
+    <p className="text-sm text-gray-500 leading-relaxed mb-4">
+      {children}
+    </p>
+  )
+}
+
+export function Codigo({ children }) {
+  return (
+    <pre className="mono text-xs bg-gray-50 border border-gray-100 rounded-lg p-5 overflow-x-auto leading-relaxed text-gray-700 my-4 whitespace-pre">
       {children}
     </pre>
   )
 }
 
-export function WhenGrid({ si = [], no = [], siLabel = 'Úsalo cuando...', noLabel = 'Evítalo si...' }) {
+export function Divider() {
+  return <hr className="border-gray-100 my-10" />
+}
+
+export function Tag({ children, color = 'gray' }) {
+  const colors = {
+    gray:   'bg-gray-100 text-gray-600',
+    blue:   'bg-blue-50 text-blue-600',
+    green:  'bg-green-50 text-green-600',
+    red:    'bg-red-50 text-red-600',
+  }
   return (
-    <div className="grid grid-cols-2 gap-3 mt-3">
-      <div className="bg-green-50 border border-green-300 rounded-lg p-3">
-        <div className="text-xs font-medium text-green-700 mb-2">✓ {siLabel}</div>
-        {si.map((item, i) => <div key={i} className="text-xs text-gray-600 mb-1">{item}</div>)}
-      </div>
-      <div className="bg-red-50 border border-red-300 rounded-lg p-3">
-        <div className="text-xs font-medium text-red-700 mb-2">✗ {noLabel}</div>
-        {no.map((item, i) => <div key={i} className="text-xs text-gray-600 mb-1">{item}</div>)}
-      </div>
+    <span className={`inline-block text-xs px-2 py-0.5 rounded font-medium ${colors[color]}`}>
+      {children}
+    </span>
+  )
+}
+
+export function Nota({ children }) {
+  return (
+    <div className="border-l-2 border-gray-200 pl-4 my-6">
+      <p className="text-sm text-gray-400 leading-relaxed">{children}</p>
     </div>
   )
 }

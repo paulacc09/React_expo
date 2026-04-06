@@ -1,36 +1,61 @@
 import { useState } from 'react'
-import { SectionWrapper, CodeBlock } from '../UI'
+import { Titulo, Parrafo, Codigo, Divider } from '../UI'
 
 const HOOKS = [
   {
     name: 'useState',
-    brief: 'Gestión de estado local',
-    desc: 'Devuelve un valor con estado y una función para actualizarlo. Cuando el estado cambia, React re-renderiza el componente automáticamente.',
-    code: `const [nombre, setNombre] = useState("");\n// nombre = valor actual\n// setNombre = función para actualizar`,
+    desc: 'Guarda un valor dentro del componente. Cuando cambia, React redibuja el componente automáticamente.',
+    code: `const [valor, setValor] = useState(valorInicial)
+
+// valor      → el dato actual
+// setValor   → función para actualizarlo
+// Al llamar setValor, React re-renderiza el componente`,
   },
   {
     name: 'useEffect',
-    brief: 'Efectos secundarios y ciclo de vida',
-    desc: 'Ejecuta código después del render. Reemplaza componentDidMount, componentDidUpdate y componentWillUnmount de los componentes de clase.',
-    code: `useEffect(() => {\n  fetch("/api/datos").then(r => setData(r));\n  return () => cancelar(); // cleanup\n}, [dependencia]);`,
+    desc: 'Ejecuta código después del render. Sirve para llamar APIs, configurar timers o suscribirse a eventos.',
+    code: `useEffect(() => {
+  // código que corre después del render
+  const sub = subscribe(data => setData(data))
+
+  // limpieza: corre antes del próximo efecto
+  return () => sub.unsubscribe()
+
+}, [dependencia]) // corre cada vez que dependencia cambia`,
   },
   {
     name: 'useContext',
-    brief: 'Estado global sin prop drilling',
-    desc: 'Permite consumir un contexto de React sin pasar props manualmente por cada nivel del árbol.',
-    code: `const tema = useContext(TemaContext);\n// Accede al valor del contexto más cercano`,
+    desc: 'Consume un contexto sin necesidad de pasar props por cada nivel del árbol de componentes.',
+    code: `const tema = useContext(TemaContext)
+// Accede al valor del Provider más cercano en el árbol`,
   },
   {
     name: 'useRef',
-    brief: 'Referencias sin re-render',
-    desc: 'Devuelve un objeto mutable que persiste entre renders. Útil para acceder al DOM directamente.',
-    code: `const inputRef = useRef(null);\ninputRef.current.focus(); // accede al DOM`,
+    desc: 'Crea una referencia que persiste entre renders pero no provoca re-render cuando cambia.',
+    code: `const inputRef = useRef(null)
+
+// Acceder al DOM directamente
+<input ref={inputRef} />
+inputRef.current.focus()
+
+// Guardar valores sin re-render
+const timerId = useRef(null)
+timerId.current = setTimeout(fn, 1000)`,
   },
   {
-    name: 'useMemo / useCallback',
-    brief: 'Optimización de rendimiento',
-    desc: 'useMemo memoriza el resultado de un cálculo costoso. useCallback memoriza una función para evitar que se recree en cada render.',
-    code: `const resultado = useMemo(() => calcular(a, b), [a, b]);\nconst handler = useCallback(() => doSomething(), [dep]);`,
+    name: 'useMemo',
+    desc: 'Memoriza el resultado de un cálculo para no repetirlo en cada render innecesariamente.',
+    code: `const total = useMemo(
+  () => items.reduce((acc, i) => acc + i.precio, 0),
+  [items] // recalcula solo cuando items cambia
+)`,
+  },
+  {
+    name: 'useCallback',
+    desc: 'Memoriza una función para que no se recree en cada render. Útil al pasarla como prop a componentes hijos.',
+    code: `const handleClick = useCallback(() => {
+  doSomething(id)
+}, [id]) // nueva función solo si id cambia`,
   },
 ]
 
@@ -38,27 +63,42 @@ export default function SecHooks() {
   const [open, setOpen] = useState(null)
 
   return (
-    <SectionWrapper title="Hooks principales — clic para ver detalles">
-      {HOOKS.map((h, i) => (
-        <div key={i} className="border border-gray-200 rounded-xl mb-2 overflow-hidden">
-          <button
-            onClick={() => setOpen(open === i ? null : i)}
-            className="w-full flex items-center justify-between px-4 py-3 bg-gray-50 hover:bg-gray-100 transition-colors text-left"
-          >
-            <div>
-              <span className="font-mono text-sm font-bold text-blue-700">{h.name}</span>
-              <span className="text-xs text-gray-400 ml-3">{h.brief}</span>
-            </div>
-            <span className={`text-gray-400 text-xs transition-transform inline-block ${open === i ? 'rotate-180' : ''}`}>▼</span>
-          </button>
-          {open === i && (
-            <div className="px-4 py-3 border-t border-gray-100 bg-white">
-              <p className="text-sm text-gray-500 leading-relaxed mb-2">{h.desc}</p>
-              <CodeBlock>{h.code}</CodeBlock>
-            </div>
-          )}
-        </div>
-      ))}
-    </SectionWrapper>
+    <div>
+      <Titulo>React Hooks</Titulo>
+      <Parrafo>
+        Los hooks son la forma moderna de agregar estado y lógica a los componentes
+        funcionales. Haz clic en cualquiera para ver el detalle.
+      </Parrafo>
+
+      <Divider />
+
+      <div className="divide-y divide-gray-100">
+        {HOOKS.map((h, i) => (
+          <div key={i}>
+            <button
+              onClick={() => setOpen(open === i ? null : i)}
+              className="w-full flex items-center justify-between py-4 text-left group"
+            >
+              <div className="flex items-center gap-4">
+                <code className="mono text-sm font-medium text-gray-800">{h.name}</code>
+                {open !== i && (
+                  <span className="text-sm text-gray-400 hidden sm:block">{h.desc.slice(0, 55)}…</span>
+                )}
+              </div>
+              <span className={`text-gray-300 text-xs transition-transform ${open === i ? 'rotate-180' : ''}`}>
+                ▼
+              </span>
+            </button>
+
+            {open === i && (
+              <div className="pb-6">
+                <p className="text-sm text-gray-500 leading-relaxed mb-4">{h.desc}</p>
+                <Codigo>{h.code}</Codigo>
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
   )
 }
